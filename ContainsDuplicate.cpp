@@ -13,3 +13,22 @@ public:
         return does;
     }
 };
+
+
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        set<int> st;
+        int n = nums.size();
+        bool ans = false;
+        for(int i = 0; i < n; i++) {
+            if(st.find(nums[i]) == st.end()) {
+                st.insert(nums[i]);
+            } else {
+                ans = true;
+                break;
+            }
+        }
+        return ans;
+    }
+};
