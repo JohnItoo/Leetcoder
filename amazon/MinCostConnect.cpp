@@ -2,6 +2,9 @@
 
 using namespace std;
 
+
+//Catch: The reason why we cannot just sort ropes and add incrementally from left to right is that there might be a better pair in the array so it will be crazy to use the array as is.
+// We then have to use a min heap which ensures we will always get the first
 int connect(vector<int> ropes) {
 	int n = ropes.size();
 	priority_queue<int, vector<int>, greater<int> > pq;
