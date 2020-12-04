@@ -3,8 +3,8 @@ using namespace std;
 
 struct myComp {
 	bool operator()(pair<int, double> const& pd, pair<int, double> const& pq) {
-		if (pd.first == pq.first) return pd.second > pq.second;
-		return pd.first > pq.first;
+		if (pd.second == pq.second) return pd.first > pq.first;
+		return pd.second < pq.second;
 	}
 
 
@@ -22,20 +22,21 @@ int minRev(vector<vector<int> > pr, int rt) {
 		sm += perc;
 		pq.push(pdd);
 	}
-	sm += 100* (n - pq.size());
+	sm += 100 * (n - pq.size());
 	int need = rt * n;
 	int ans = 0;
-	cout << need << endl;
 
-	while(sm < need && !pq.empty()) {
+	while (sm < need && !pq.empty()) {
 		pair<int, double> curr = pq.top(); pq.pop();
 		sm -= curr.second;
-		// cout << curr.first << " " << curr.second << " here\n";
-		int num = (curr.second * curr.first) / 100;
-		double nw = (double) (num + 1)/ (curr.first + 1);
+		if (ans < 5) cout << curr.first << " " << curr.second << " here\n";
+		double num = (double)(curr.second * curr.first) / 100;
+		cout << num << " num\n";
+
+		double nw = (double) (num + 1) / (curr.first + 1);
 		nw *= 100;
 		sm += nw;
-		pair<int, double> pqd = make_pair(num+1, nw);
+		pair<int, double> pqd = make_pair(curr.first + 1, nw );
 		pq.push(pqd);
 		ans++;
 	}
