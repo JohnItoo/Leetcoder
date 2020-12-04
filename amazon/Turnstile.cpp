@@ -32,6 +32,8 @@ vector<int> getTimes(vector<int> times, vector<int> dir) {
 		}
 
 		if ((lastUsed.first + 1  == el || lastUsed.first == el)  &&  lastUsed.second == 0) {
+			// To allow an entering person to pass the turnstile, the turnstile must have been used in the previous second to
+			// enter. Previous second means that the current second - 1 or the current second (which forces us to wait till the next second)
 			if (el <= lastUsed.first) el = lastUsed.first + 1;
 			result[(enters.front()).second] = el;
 			lastUsed = make_pair(el, 0);
