@@ -1,43 +1,39 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct myComp {
-	bool operator()(pair<int, double> const& pd, pair<int, double> const& pq) {
-		if (pd.second == pq.second) return pd.first > pq.first;
-		return pd.second > pq.second;
-	}
-
-
-};
-
-int minRev(vector<vector<int> > pr, int rt) {
+int minRev(vector<vector<double> > pr, int rt) {
 	int n = pr.size();
-	priority_queue<pair<int, double>, vector<pair<int, double> >, myComp > pq;
 	double sm = 0;
 	for (int i = 0; i < n; i++) {
-		if (pr[i][0] == pr[i][1]) continue;
 		double perc = (double) pr[i][0] / pr[i][1];
 		perc *= 100;
-		pair<int, double> pdd = make_pair(pr[i][1], perc);
 		sm += perc;
-		pq.push(pdd);
 	}
-	sm += 100 * (n - pq.size());
-	int need = rt * n;
+	double need = rt * n;
+	cout << need << endl;
 	int ans = 0;
 
-	while (sm < need && !pq.empty()) {
-		pair<int, double> curr = pq.top(); pq.pop();
-		sm -= curr.second;
-		if (ans < 5) cout << curr.first << " " << curr.second << " here\n";
-		double num = (double)(curr.second * curr.first) / 100;
-		cout << num << " num\n";
+	while (sm < need) {
+		int idx = 0;
+		while (idx < pr.size() && pr[idx][0] == pr[idx][1]) idx++; // skip all 100percenters from the left;
+		int mxIndex = idx;
+		double mxValue =  ((pr[mxIndex][0] + 1) / (pr[mxIndex][1] + 1)) - (pr[mxIndex][0] / pr[mxIndex][1]); // default Max Impact is the first Non 100 percenter in array.
+		for (int i = 0; i < n; i++) {
 
-		double nw = (double) (num + 1) / (curr.first + 1);
-		nw *= 100;
-		sm += nw;
-		pair<int, double> pqd = make_pair(curr.first + 1, nw );
-		pq.push(pqd);
+			if (pr[i][0] == pr[i][1]) continue; // skipping 100 percenters
+			double curr =  (((pr[i][0] + 1) / (pr[i][1] + 1)) - pr[i][0] / pr[i][1]) ; //
+			if (curr > mxValue) {
+				mxValue = curr;
+				mxIndex = i;
+			}
+		}
+		double x = pr[mxIndex][0];
+		double y = pr[mxIndex][1];
+
+		sm -= (double) (x / y) * 100;
+		sm += (double) ((x + 1) / (y + 1)) * 100;
+		pr[mxIndex][0] = x + 1;
+		pr[mxIndex][1] = y + 1;
 		ans++;
 	}
 
@@ -47,9 +43,9 @@ int minRev(vector<vector<int> > pr, int rt) {
 
 int main() {
 	int n; cin >> n;
-	vector<vector<int> > pr(n, vector<int>(2));
+	vector<vector<double> > pr(n, vector<double>(2));
 	for (int i = 0; i < n; i++) {
-		int x, y; cin >> x >> y;
+		double x, y; cin >> x >> y;
 		pr[i][0] = x;
 		pr[i][1] = y;
 	}
