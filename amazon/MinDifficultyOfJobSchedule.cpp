@@ -6,23 +6,32 @@ int D = 0;
 vector<int> difc;
 
 int solve(int i , int j) {
-	if (j == 0) return 0;
-	int hw = difc.size() - (j - 1);
-	int result = 1e9+7;
-	for (int t = 1; t <= hw; t++) { //max jobs we can have in this day j
+	if (j == 1) {
+		int lft = i;
 		int mx = 0;
-		for (int lft = i; lft < i + t; lft++) { 
+		while (lft < difc.size()) mx = max(mx, difc[lft++]);
+		return mx;
+	}
+	int hw = difc.size() - (j - 1); // we can take all jobs from i to hw-1 on  this day j
+	int result = 1e9 + 7;
+	for (int t = i; t < hw; t++) {
+		int mx = 0;
+		for (int lft = i; lft <=  t; lft++) {
 			mx = max(mx, difc[lft]);
 		}
 		// cout << mx << " " << j << endl;
-		result = min(result, mx + solve(i + t, j - 1));
+		int curr = mx + solve(t, j - 1);
+		if (curr < result) {
+			cout << t << " t : curr " << j << " " << curr << endl;
+			result = curr;
+		}
 	}
 
 	return result;
 }
 
 int main() {
-   int n;
+	int n;
 	cin >> n;
 	for (int i = 0; i < n; i++) {
 		int x; cin >> x;
