@@ -4,7 +4,7 @@ using namespace std;
 struct myComp {
 	bool operator()(pair<int, double> const& pd, pair<int, double> const& pq) {
 		if (pd.second == pq.second) return pd.first > pq.first;
-		return pd.second < pq.second;
+		return pd.second > pq.second;
 	}
 
 
