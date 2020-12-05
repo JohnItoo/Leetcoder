@@ -4,6 +4,9 @@
 using namespace std;
 int D = 0;
 vector<int> difc;
+int INF = 1e9 + 7;
+int dp[305][15];
+
 
 int solve(int i , int j) {
 	if (j == 1) {
@@ -12,32 +15,34 @@ int solve(int i , int j) {
 		while (lft < difc.size()) mx = max(mx, difc[lft++]);
 		return mx;
 	}
+	if (dp[i][j] != -1) return dp[i][j];
+	dp[i][j] = INF;
 	int hw = difc.size() - (j - 1); // we can take all jobs from i to hw-1 on  this day j
-	int result = 1e9 + 7;
+	int result = INF;
+	int mx = difc[i];
 	for (int t = i; t < hw; t++) {
-		int mx = 0;
-		for (int lft = i; lft <=  t; lft++) {
-			mx = max(mx, difc[lft]);
-		}
+		mx = max(mx, difc[t]);
 		// cout << mx << " " << j << endl;
-		int curr = mx + solve(t, j - 1);
+		int curr = mx + solve(t + 1, j - 1); // the next guy starts at t+1, a
 		if (curr < result) {
-			cout << t << " t : curr " << j << " " << curr << endl;
+			// cout << t << " t : curr " << j << " " << curr << endl;
 			result = curr;
 		}
 	}
 
-	return result;
+	return dp[i][j] = result;
 }
 
 int main() {
 	int n;
 	cin >> n;
+	memset(dp, -1, sizeof dp);
 	for (int i = 0; i < n; i++) {
 		int x; cin >> x;
 		difc.push_back(x);
 	}
 	cin >> D;
 	int ans = solve(0, D);
-	cout << ans << endl;
+	if(ans == INF) cout << -1 << endl;
+	else cout << ans << endl;
 }
