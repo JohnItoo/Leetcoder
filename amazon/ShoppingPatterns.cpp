@@ -9,6 +9,7 @@ int solve(vector<vector<int> > graph) {
 		stack<pair<int, pair<int, int> > > dfs;
 		dfs.push(make_pair(i, make_pair(i, 0)));
 		map<int, int> visited;
+		bool fd = 0;
 		while (!dfs.empty()) {
 			pair<int, pair<int, int> > tp = dfs.top(); dfs.pop();
 			int previous = tp.first;
@@ -16,11 +17,13 @@ int solve(vector<vector<int> > graph) {
 			int depth = tp.second.second;
 			if (visited.find(current) != visited.end()) continue;
 			visited[current] = 1;
+			cout << i << " " << previous << " " << current << endl;
 			for (int edge : graph[current]) {
 				if (edge == i &&  depth == 2) {
 					//found trio;
-					cout << i << " " << previous << " " << current << endl;
+					// cout << i << " " << previous << " " << current << endl;
 					int sm = (graph[i].size() - 2) + (graph[previous].size() - 2) + (graph[current].size() - 2);
+					fd = 1;
 					ans = min(sm, ans);
 				} else {
 					pair<int, pair<int, int> > nw = make_pair(current, make_pair(edge, depth + 1));
