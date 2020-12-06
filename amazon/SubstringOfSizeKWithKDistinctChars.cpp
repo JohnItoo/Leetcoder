@@ -10,7 +10,13 @@ vector<string> solve(string s, int k) {
 	set<string> ans;
 
 	while (i < n && j < n) {
-		if(j - i == k-1 && mpc.find(s[j]) == mpc.end()) {
+		if (j - i == k - 1) {
+			if (mpc.find(s[j]) != mpc.end()) {
+				i = mpc[s[j]] + 1;
+				mpc[s[j]] = j;
+				j++;
+				continue;
+			}
 			string sub = s.substr(i, k);
 			mpc.erase(s[i]);
 			ans.insert(sub);
@@ -19,15 +25,14 @@ vector<string> solve(string s, int k) {
 			continue;
 		}
 		if (mpc.find(s[j]) == mpc.end()) {
-			mpc[s[j]] = 1;
+			mpc[s[j]] = i;
 			j++;
 		} else {
-			i++;
+			i = mpc[s[j]] + 1;
 		}
-
 	}
 	vector<string> res;
-	for(string an : ans) res.push_back(an);
+	for (string an : ans) res.push_back(an);
 	return res;
 }
 
