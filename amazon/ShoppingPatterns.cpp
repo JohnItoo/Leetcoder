@@ -17,8 +17,9 @@ int solve(vector<vector<int> > graph) {
 			int depth = tp.second.second;
 			if (visited.find(current) != visited.end()) continue;
 			visited[current] = 1;
-			cout << i << " " << previous << " " << current << endl;
+			cout <<  previous << " " << current << " " << depth <<  endl;
 			for (int edge : graph[current]) {
+				// if(current == 3) cout << edge << " ed " << depth << endl;
 				if (edge == i &&  depth == 2) {
 					//found trio;
 					// cout << i << " " << previous << " " << current << endl;
@@ -26,7 +27,10 @@ int solve(vector<vector<int> > graph) {
 					fd = 1;
 					ans = min(sm, ans);
 				} else {
+					if (edge == i) continue;
+
 					pair<int, pair<int, int> > nw = make_pair(current, make_pair(edge, depth + 1));
+					// if (current == 2) cout << current << " " << edge << " ::  " << depth+1 <<endl;
 					dfs.push(nw);
 				}
 			}
