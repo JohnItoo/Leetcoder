@@ -14,15 +14,27 @@ struct myComp
 };
 bool canReach(string from, string to)
 {
+    if (from.length() != to.length() || from == to)
+        return false;
+    int len = from.length();
+    for (int i = 0; i < len; i++)
+    {
+        string fr = from;
+        fr[i] = to[i];
+        if (fr == to)
+            return true;
+    }
+    return false;
 }
 
 int shortestEditPath(vector<string> words, string source, string target)
 {
-    vector<vector<int>> adj(words.size() + 1, vector<int>());
+    vector<vector<int> > adj(words.size() + 1, vector<int>());
     int idx = -1;
     for (int i = 0; i < words.size(); i++)
     {
-        if (words[i] == source)
+
+        if (words[i] == target)
         {
             idx = i;
             continue;
@@ -30,8 +42,10 @@ int shortestEditPath(vector<string> words, string source, string target)
         if (canReach(source, words[i]))
         {
             adj[0].push_back(i + 1);
+            adj[i + 1].push_back(0);
         }
     }
+  
     if (idx == -1)
     {
         return idx;
@@ -51,7 +65,13 @@ int shortestEditPath(vector<string> words, string source, string target)
             }
         }
     }
-    priority_queue<pair<int, int>, vector<pair<int, int>>, myComp> q;
+      for(int i = 0; i <= words.size(); i++) {
+        for(int xx: adj[i]) {
+            cout << xx << " ";
+        }
+        cout << endl;
+    }
+    priority_queue<pair<int, int>, vector<pair<int, int> >, myComp> q;
     q.push(make_pair(0, 0)); // {distance, vertex}
     distance[0] = 0;
     map<int, int> visited;
