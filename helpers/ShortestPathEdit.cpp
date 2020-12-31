@@ -1,6 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+/*
+TOON
+PLEA
+7
+POON PLEE SAME POIE PLEA PLIE POIN
+*/
 struct myComp
 {
     bool operator()(
@@ -29,7 +35,7 @@ bool canReach(string from, string to)
 
 int shortestEditPath(vector<string> words, string source, string target)
 {
-    vector<vector<int> > adj(words.size() + 1, vector<int>());
+    vector<vector<int>> adj(words.size() + 1, vector<int>());
     int idx = -1;
     for (int i = 0; i < words.size(); i++)
     {
@@ -45,7 +51,7 @@ int shortestEditPath(vector<string> words, string source, string target)
             adj[i + 1].push_back(0);
         }
     }
-  
+
     if (idx == -1)
     {
         return idx;
@@ -61,17 +67,10 @@ int shortestEditPath(vector<string> words, string source, string target)
             if (canReach(words[i], words[j]))
             {
                 adj[i + 1].push_back(j + 1);
-                adj[j + 1].push_back(i + 1);
             }
         }
     }
-      for(int i = 0; i <= words.size(); i++) {
-        for(int xx: adj[i]) {
-            cout << xx << " ";
-        }
-        cout << endl;
-    }
-    priority_queue<pair<int, int>, vector<pair<int, int> >, myComp> q;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, myComp> q;
     q.push(make_pair(0, 0)); // {distance, vertex}
     distance[0] = 0;
     map<int, int> visited;
@@ -93,9 +92,12 @@ int shortestEditPath(vector<string> words, string source, string target)
             q.push(make_pair(distance[child], child));
         }
     }
-    if (distance[idx] == INF)
+    for (int i = 0; i < distance.size(); i++)
+        cout << i << " " << distance[i] << " \n";
+    return 0;
+    if (distance[idx + 1] == INF)
         return -1;
-    return distance[idx];
+    return distance[idx + 1];
 }
 
 int main()
