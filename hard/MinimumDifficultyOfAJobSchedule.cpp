@@ -1,42 +1,42 @@
-class Solution {
-    int INF = 1e9 + 6;
-    int dp[310][15];
-    int D = 0;
+class Solution
+{
+public:
+    int dp[315][15];
+    int INF = 1e9 + 8;
 
-    int solve(int i, int j, vector<int> &jd) {
-        if (j == 1) {
-            int mx = 0;
-            int lft = i;
-            while (lft < jd.size()) {
-                mx = max(mx, jd[lft]);
-                lft++;
-            }
-            return mx;
+    int solve(int index, int remDays, vector<int> &jd)
+    {
+
+        int n = jd.size();
+        if (index == n && remDays == 0)
+        {
+            return 0;
         }
-        if (dp[i][j] != -1) return dp[i][j];
-        dp[i][j] = INF;
-        int hw = jd.size() - (j - 1 ); //The jth day will start at i but can end at i up till hw -1; hw = size of array - number of days left after today.
-        int result = INF;
-        for (int t = i; t < hw; t++) {
-            int mx = 0;
-            for (int left = i; left <= t; left++) {
-                mx = max(mx, jd[left]);
-            }
-            int curr = mx + solve(t + 1, j - 1, jd);
-            if (curr < result) {
-                result = curr;
-            }
+        if (index == n || remDays == 0 || remDays > n - index)
+        {
+            return INF;
         }
-        return dp[i][j] = result;
+        if (dp[index][remDays] != -1)
+        {
+            return dp[index][remDays];
+        }
+        dp[index][remDays] = INF;
+        int mx = 0;
+        for (int ct = index; ct < n; ct++)
+        {                         // the cth job can still be done on currentDay;
+            mx = max(mx, jd[ct]); // max from obvious start index till point ct;
+            dp[index][remDays] = min(dp[index][remDays], solve(ct + 1, remDays - 1, jd) + mx);
+        }
+        return dp[index][remDays];
     }
 
-
-public:
-    int minDifficulty(vector<int>& jobDifficulty, int d) {
+    int minDifficulty(vector<int> &jd, int d)
+    {
+        int n = jd.size();
         memset(dp, -1, sizeof dp);
-        D = d;
-        int ans = solve(0, d, jobDifficulty);
-        if (ans == INF) return -1;
-        return ans;
+        int res = solve(0, d, jd);
+        if (res == INF)
+            return -1;
+        return res;
     }
 };
