@@ -7,87 +7,64 @@ PLEA
 7
 POON PLEE SAME POIE PLEA PLIE POIN
 */
-struct myComp
-{
-    bool operator()(
-        pair<int, int> a,
-        pair<int, int> b)
-    {
-        if (a.first == b.first)
-            return a.second > b.second;
+struct myComp {
+    bool operator()(pair<int, int> a, pair<int, int> b) {
+        if (a.first == b.first) return a.second > b.second;
         return a.first > b.first;
     }
 };
-bool canReach(string from, string to)
-{
-    if (from.length() != to.length() || from == to)
-        return false;
+bool canReach(string from, string to) {
+    if (from.length() != to.length() || from == to) return false;
     int len = from.length();
-    for (int i = 0; i < len; i++)
-    {
+    for (int i = 0; i < len; i++) {
         string fr = from;
         fr[i] = to[i];
-        if (fr == to)
-            return true;
+        if (fr == to) return true;
     }
     return false;
 }
 
-int shortestEditPath(vector<string> words, string source, string target)
-{
+int shortestEditPath(vector<string> words, string source, string target) {
     vector<vector<int>> adj(words.size() + 1, vector<int>());
     int idx = -1;
-    for (int i = 0; i < words.size(); i++)
-    {
-
-        if (words[i] == target)
-        {
+    for (int i = 0; i < words.size(); i++) {
+        if (words[i] == target) {
             idx = i;
             continue;
         }
-        if (canReach(source, words[i]))
-        {
+        if (canReach(source, words[i])) {
             adj[0].push_back(i + 1);
             adj[i + 1].push_back(0);
         }
     }
 
-    if (idx == -1)
-    {
+    if (idx == -1) {
         return idx;
     }
     int INF = 1e9 + 8;
     vector<int> distance(words.size() + 1, INF);
-    for (int i = 0; i < words.size(); i++)
-    {
-        for (int j = 0; j < words.size(); j++)
-        {
-            if (i == j)
-                continue;
-            if (canReach(words[i], words[j]))
-            {
+    for (int i = 0; i < words.size(); i++) {
+        for (int j = 0; j < words.size(); j++) {
+            if (i == j) continue;
+            if (canReach(words[i], words[j])) {
                 adj[i + 1].push_back(j + 1);
             }
         }
     }
     priority_queue<pair<int, int>, vector<pair<int, int>>, myComp> q;
-    q.push(make_pair(0, 0)); // {distance, vertex}
+    q.push(make_pair(0, 0));  // {distance, vertex}
     distance[0] = 0;
     map<int, int> visited;
-    while (!q.empty())
-    {
+    while (!q.empty()) {
         pair<int, int> next = q.top();
         q.pop();
         int dist = next.first;
         int vertex = next.second;
-        if (visited.find(vertex) != visited.end())
-            continue;
+        if (visited.find(vertex) != visited.end()) continue;
         visited[vertex] = 1;
 
-        for (int child : adj[vertex])
-        {
-            if (distance[vertex] + 1 >= distance[child])
-                continue;
+        for (int child : adj[vertex]) {
+            if (distance[vertex] + 1 >= distance[child]) continue;
             distance[child] = distance[vertex] + 1;
             q.push(make_pair(distance[child], child));
         }
@@ -95,13 +72,11 @@ int shortestEditPath(vector<string> words, string source, string target)
     for (int i = 0; i < distance.size(); i++)
         cout << i << " " << distance[i] << " \n";
     return 0;
-    if (distance[idx + 1] == INF)
-        return -1;
+    if (distance[idx + 1] == INF) return -1;
     return distance[idx + 1];
 }
 
-int main()
-{
+int main() {
     string source;
     cin >> source;
     string target;
@@ -109,8 +84,7 @@ int main()
     vector<string> words;
     int n;
     cin >> n;
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++) {
         string s;
         cin >> s;
         words.push_back(s);
