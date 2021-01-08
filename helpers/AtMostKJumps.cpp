@@ -8,13 +8,15 @@ int main() {
     dp[1][0] = 1;
     dp[2][1] = 1;
 
-    for(int jump = 2; jump <= k; jump++) {
-        for(int step = 3; step <= n; step++) {
-            dp[step][jump] += (dp[step-1][jump-1] + dp[step-2][jump-2]);
+    for(int step = 3; step <= n; step++) {
+        for(int jump = 2; jump <= k; jump++) {
+           for(int i = 0; i <= k; i++) {
+               dp[step][jump] += dp[step-1][i] + dp[step-2][i];
+           }
         }
     }
-    for(int jump = 1; jump <= k; jump++) {
-        cout << dp[n][jump] << " ";
+    for(int jump = 0; jump <= k; jump++) {
+        cout << dp[3][jump] << " ";
     }
     cout << endl;
 
