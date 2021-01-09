@@ -18,7 +18,7 @@ class Solution {
         mp[s] = 0;
         return false;
     }
-    bool wordBreak(string s, vector<string> &wordDict) {
+    bool wordBreak(string s, vector<string>& wordDict) {
         map<string, int> dictionary;
 
         int n = wordDict.size();
@@ -26,5 +26,36 @@ class Solution {
             dictionary[wordDict[i]] = 1;
         }
         return check(s, dictionary);
+    }
+};
+
+class Solution {
+   public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int n = s.length();
+        unordered_map<string, int> mp;
+        int m = wordDict.size();
+        for (int i = 0; i < m; i++) {
+            mp[wordDict[i]] = 1;
+        }
+        vector<bool> dp(n + 1, false);
+        dp[0] = true;
+        // if it ended at dp[i] is it valid.
+        // At each point what is important.
+        // first char is at index 1 so if we end at index 0 it is valid.
+        // For all true positions before current position. Since validity ends
+        // at where it is "true". check if a word can be formed from immediately
+        // after that "true" to include my current position.
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (!dp[j]) continue;
+                string sub = s.substr(j, i - j);
+                if (mp.count(sub)) {
+                    dp[i] = true;
+                }
+            }
+        }
+        return dp[n];
     }
 };
