@@ -1,7 +1,6 @@
 class Solution {
-public:
+   public:
     void moveZeroes(vector<int>& nums) {
-
         int n = nums.size();
         if (n == 0) return;
         int pointer = 0;
@@ -15,6 +14,5 @@ public:
         while (pointer < n) {
             nums[pointer++] = 0;
         }
-
     }
 };

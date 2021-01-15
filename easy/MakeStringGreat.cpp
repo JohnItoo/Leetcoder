@@ -1,7 +1,7 @@
-//Question 1544 
+// Question 1544
 class Solution {
-
-public: int isGood(string s) {
+   public:
+    int isGood(string s) {
         bool is = true;
         int st = -1;
         for (int i = 0; i < s.length() - 1; i++) {
@@ -21,7 +21,8 @@ public: int isGood(string s) {
         }
         return st;
     }
-public:
+
+   public:
     string makeGood(string s) {
         int isIt = isGood(s);
         while (isIt != -1 && s.length() > 2) {
@@ -31,7 +32,9 @@ public:
             s = nw + nq;
             isIt = isGood(s);
         }
-        if (isGood(s) != -1) return "";
-        else return s;
+        if (isGood(s) != -1)
+            return "";
+        else
+            return s;
     }
 };
