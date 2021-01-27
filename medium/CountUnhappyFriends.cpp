@@ -1,8 +1,8 @@
 class Solution {
-public:
-    int unhappyFriends(int n, vector<vector<int>>& preferences, vector<vector<int>>& pairs) {
+   public:
+    int unhappyFriends(int n, vector<vector<int>>& preferences,
+                       vector<vector<int>>& pairs) {
         vector<map<int, int>> prefs(n);
-
 
         int m = preferences[0].size();
 
@@ -12,7 +12,7 @@ public:
             prs[pr[1]] = pr[0];
         }
 
-        for (int i = 0;  i < n; i++) {
+        for (int i = 0; i < n; i++) {
             map<int, int> curr;
             vector<int> cp = preferences[i];
             for (int j = 0; j < m; j++) {
@@ -49,9 +49,7 @@ public:
                 }
                 i++;
             }
-
         }
         return ans;
-
     }
 };

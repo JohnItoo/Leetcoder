@@ -1,8 +1,9 @@
-//TLE on Second to tbe Last testcase
+// TLE on Second to tbe Last testcase
 
 class Solution {
-public:
-    int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D) {
+   public:
+    int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C,
+                     vector<int>& D) {
         int n = A.size();
         if (n == 0) return n;
         sort(A.begin(), A.end());
@@ -17,7 +18,8 @@ public:
         int ct = 0;
         int xx = -1;
 
-        while ( xx + 1 < n && A[xx + 1] == 0 && B[xx + 1] == 0 && C[xx + 1] == 0 && D[xx + 1] == 0) {
+        while (xx + 1 < n && A[xx + 1] == 0 && B[xx + 1] == 0 &&
+               C[xx + 1] == 0 && D[xx + 1] == 0) {
             xx++;
         }
         ct = xx + 1;
@@ -47,21 +49,20 @@ public:
                 if (get<0>(currb) != -frst) break;
                 ans++;
                 ++it;
-
             }
             q++;
         }
 
         return ans;
-
     }
 };
 
-//Simple O(N^2) with maps.
+// Simple O(N^2) with maps.
 
 class Solution {
-public:
-    int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D) {
+   public:
+    int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C,
+                     vector<int>& D) {
         unordered_map<int, int> mp;
         for (auto a : A) {
             for (auto b : B) {
