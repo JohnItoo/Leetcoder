@@ -43,7 +43,7 @@ class Solution {
     }
 };
 
-// IN PLACE
+// USING MAP WITHOUT ALLOCATING COPY
 
 class Solution {
    public:
@@ -87,6 +87,53 @@ class Solution {
                     board[i][j] = 1;
                 } else {
                     board[i][j] = 0;
+                }
+            }
+        }
+    }
+};
+
+//IN PLACE
+
+class Solution {
+public:
+    bool isValid(int n, int m, int r, int c) {
+        return (r >= 0 && r < n && c >= 0 && c < m);
+    }
+    
+    void gameOfLife(vector<vector<int>>& board) {
+        int n = board.size();
+        int m = board[0].size();
+ 
+        int dir[8][2] = { {-1, 0}, {-1, 1}, {0, 1} , {1, 1}, {1, 0}, 
+                         {1, -1}, {0, -1}, {-1, -1} };
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                int neighbours = 0;
+                for(int k = 0; k < 8; k++) {
+                    int r = i+ dir[k][0];
+                    int c = j + dir[k][1];
+                    if(!isValid(n, m, r, c) || board[r][c] == 0 || board[r][c] == 4) continue;
+                    neighbours++;
+                }
+                
+            
+                if(neighbours == 3) {
+                    board[i][j] = (board[i][j] == 0) ? 4 : 2;
+                } else if(neighbours == 2 && board[i][j] == 1) {
+                    board[i][j] = 2;
+                } else if(board[i][j] == 1) {
+                    board[i][j] = 3;
+                }
+            }
+        }
+        
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(board[i][j] == 0 || board[i][j] == 3) {
+                    board[i][j] = 0;
+                } else {
+                    board[i][j] = 1;
                 }
             }
         }
