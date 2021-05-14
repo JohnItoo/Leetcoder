@@ -19,6 +19,20 @@ class Solution {
         return false;
     }
 
+    vector<string> getAllStringsForSubstring(const string& substringHere) {
+        vector<string> valids;
+        if (isValidString(substringHere)) valids.push_back(substringHere);
+        int len = substringHere.size();
+        for (int point = 1; point < len; point++) {
+            string lls = substringHere.substr(0, point);
+            lls.push_back('.');
+            string lrt = substringHere.substr(point, len - point);
+            string curr = lls + lrt;
+            if (isValidString(curr)) valids.push_back(curr);
+        }
+        return valids;
+    }
+
     vector<string> ambiguousCoordinates(string s) {
         int n = s.length();
         vector<string> result;
@@ -32,29 +46,8 @@ class Solution {
             string left = s.substr(0, len);
             string right = s.substr(len, n - len);
 
-            vector<string> validLefts;
-            if (isValidString(left)) validLefts.push_back(left);
-
-            for (int point = 1; point < len; point++) {
-                string lls = left.substr(0, point);
-                lls.push_back('.');
-                string lrt = left.substr(point, len - point);
-                string curr = lls + lrt;
-                if (isValidString(curr)) validLefts.push_back(curr);
-            }
-
-            vector<string> validRights;
-            if (isValidString(right)) validRights.push_back(right);
-
-            int rlen = n - len;
-
-            for (int point = 1; point < rlen; point++) {
-                string rls = right.substr(0, point);
-                rls.push_back('.');
-                string rrt = right.substr(point, rlen - point);
-                string curr = rls + rrt;
-                if (isValidString(curr)) validRights.push_back(curr);
-            }
+            const vector<string> validLefts = getAllStringsForSubstring(left);
+            const vector<string> validRights = getAllStringsForSubstring(right);
 
             int lenRights = validRights.size();
             int lenLefts = validLefts.size();
