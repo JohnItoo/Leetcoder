@@ -1,3 +1,4 @@
+// O(2^N) solution recursive backtracking
 class Solution {
    public:
     int ans, len;
@@ -26,5 +27,24 @@ class Solution {
         vector<int> subs;
         bt(subs, 0);
         return ans;
+    }
+};
+
+//
+class Solution {
+   public:
+    int subsetXORSum(vector<int>& nums) {
+        int total = 0;
+        int n = nums.size();
+        for (int i = 1; i < (1 << n); i++) {
+            int curr = 0;
+            for (int j = 0; j < n; j++) {
+                if (i & (1 << j)) {
+                    curr ^= nums[j];
+                }
+            }
+            total += curr;
+        }
+        return total;
     }
 };
